@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure File Sharing</title>
+    <style>
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes colorCycle {
+        0% {
+          background-color: #ff7e5f;
+        }
+        25% {
+          background-color: #feb47b;
+        }
+        50% {
+          background-color: #ff6f91;
+        }
+        75% {
+          background-color: #ff9a8b;
+        }
+        100% {
+          background-color: #ff7e5f;
+        }
+      }
+
+      @keyframes buttonPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      @keyframes cursorBlink {
+        0%,
+        100% {
+          border-color: transparent;
+        }
+        50% {
+          border-color: #fff;
+        }
+      }
+
+      @keyframes slideIn {
+        0% {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          box-shadow: 0 0 10px white, 0 0 20px #ee302e, 0 0 30px #ee302e,
+            0 0 40px white;
+        }
+        50% {
+          box-shadow: 0 0 20px #ee302e, 0 0 30px #ee302e, 0 0 50px #ee302e,
+            0 0 70px #ee302e;
+        }
+      }
+
+      body {
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+        animation: colorCycle 10s infinite alternate;
+        overflow: hidden;
+      }
+
+      .tagline {
+        padding-left: 10px;
+        color: rgb(255, 222, 255);
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-radius: 15px;
+        animation: fadeIn 2s ease-out, glow 2s infinite alternate;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1.2em;
+        background-color: #fff;
+        margin-left: 5px;
+        vertical-align: middle;
+        border-radius: 10px;
+        animation: cursorBlink 1s infinite;
+        margin-top: -7px;
+      }
+
+      form {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        animation: slideIn 1s ease-out;
+        max-width: 400px;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+
+      label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #555;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      input[type="file"],
+      input[type="password"],
+      input[type="datetime-local"] {
+        padding: 0.75rem;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, transform 0.3s ease;
+        margin-bottom: 1rem;
+        outline: none;
+        font-size: 1rem;
+        background-color: #f9f9f9;
+      }
+
+      input[type="file"]:focus,
+      input[type="password"]:focus,
+      input[type="datetime-local"]:focus {
+        border-color: #1a73e8;
+        transform: scale(1.05);
+      }
+
+      button {
+        background-color: #1a73e8;
+        color: #fff;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+        animation: buttonPulse 2s infinite;
+      }
+
+      button:hover {
+        background-color: #42a5f5;
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      #show-link-btn {
+        background-color: #90be6d;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        width: 200px;
+        animation: fadeIn 2s ease-out;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      #show-link-btn:hover {
+        background-color: #5cb85c;
+        transform: scale(1.1);
+      }
+
+      .message {
+        background-color: rgba(0, 150, 136, 0.9);
+        color: #fff;
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        display: none;
+        animation: fadeIn 1.5s ease-out;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .message a {
+        color: #ffd700;
+        text-decoration: none;
+        font-weight: bold;
+        animation: fadeIn 2s ease;
+      }
+
+      .message a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tagline">
+      <span class="cursor" style="margin-left: -10px"></span>
+      Your Secure File Sharing Platform
+      <span class="cursor"></span>
+    </div>
+    <% if (locals.fileLink != null) { %>
+    <button id="show-link-btn">Reveal Uploaded File Link</button>
+    <div id="file-message" class="message">
+      Your file has been securely uploaded:
+      <a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+    </div>
+    <% } %>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <label for="file" style="cursor: pointer">Choose File</label>
+      <input
+        type="file"
+        id="file"
+        name="file"
+        style="cursor: pointer"
+        required
+      />
+      <label for="password">Enter Password</label>
+      <input type="password" id="password" name="password" />
+      <label for="expiryDate">Set Expiry Date & Time</label>
+      <input type="datetime-local" id="expiryDate" name="expiryDate" required />
+      <button type="submit">Share Securely</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("show-link-btn")
+        .addEventListener("click", function () {
+          var fileMessage = document.getElementById("file-message");
+          fileMessage.style.display = "block";
+        });
+    </script>
+  </body>
+</html>
